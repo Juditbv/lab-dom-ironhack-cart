@@ -2,7 +2,7 @@
 
 function updateSubtotal(product) {
   //console.log('Calculating subtotal, yey!');
-  const price = product.querySelector('.price span').innerHTML;
+  const price = product.querySelector('.price span').innerText;
   const quantity = product.querySelector('.quantity input').value;
   const subtotal = product.querySelector('.subtotal span');
   // console.log(price);
@@ -35,30 +35,46 @@ function calculateAll() {
 }
 
 // ITERATION 4
-const buttonRemove = document.querySelectorAll('.btn-remove');
-buttonRemove.forEach((button) => {
-  button.addEventListener('click', removeProduct);
-});
-
 function removeProduct(event) {
   const target = event.currentTarget;
-  console.log('The target in remove is:', target);
+  //console.log('The target in remove is:', target);
   const targetParent = target.parentNode.parentNode;
-  // console.log(targetParent);
   const parent = target.parentNode.parentNode.parentNode;
   parent.removeChild(targetParent);
-  // console.log(parent);
+  calculateAll();
 }
 
 // ITERATION 5
-
 function createProduct() {
-  //... your code goes here
+  const name = document.querySelectorAll('.create-product input')[0];
+  const price = document.querySelectorAll('.create-product input')[1];
+  const trToAppend = document.querySelector('.product').cloneNode(true);
+  const tableProducts = document.querySelector('tbody');
+
+  trToAppend.querySelector('.price span').innerHTML = price.value;
+  trToAppend.querySelector('.name span').innerText = name.value;
+  trToAppend
+    .querySelector('.btn-remove')
+    .addEventListener('click', removeProduct);
+  trToAppend.querySelector('.quantity input').value = '0';
+  tableProducts.appendChild(trToAppend);
+
+  const resetInput = () => {
+    [...document.querySelectorAll('.create-product input')].forEach((input) => {
+      input.value = '';
+    });
+  };
+
+  resetInput();
 }
 
 window.addEventListener('load', () => {
   const calculatePricesBtn = document.getElementById('calculate');
   calculatePricesBtn.addEventListener('click', calculateAll);
 
-  //... your code goes here
+  document.querySelectorAll('.btn-remove').forEach((button) => {
+    button.addEventListener('click', removeProduct);
+  });
+
+  document.getElementById('create').addEventListener('click', createProduct);
 });
