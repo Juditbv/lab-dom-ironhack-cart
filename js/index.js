@@ -23,26 +23,31 @@ function calculateAll() {
 
   // ITERATION 2
   const allProducts = document.querySelectorAll('.product');
-  allProducts.forEach((element) => {
-    updateSubtotal(element);
+  let totalPrice = 0;
+  allProducts.forEach((product) => {
+    let subtotal = updateSubtotal(product);
+    totalPrice += subtotal;
   });
 
   // ITERATION 3
   const totalValue = document.querySelector('#total-value span');
-  const allSubtotals = document.querySelectorAll('.subtotal span');
-  console.log(allSubtotals);
-  const total = allSubtotals.reduce((totalSum, currentValue) => {
-    totalSum += currentValue;
-  }, 0);
-  //return totalValue.textContent();
+  totalValue.textContent = totalPrice.toFixed(2);
 }
 
 // ITERATION 4
+const buttonRemove = document.querySelectorAll('.btn-remove');
+buttonRemove.forEach((button) => {
+  button.addEventListener('click', removeProduct);
+});
 
 function removeProduct(event) {
   const target = event.currentTarget;
   console.log('The target in remove is:', target);
-  //... your code goes here
+  const targetParent = target.parentNode.parentNode;
+  // console.log(targetParent);
+  const parent = target.parentNode.parentNode.parentNode;
+  parent.removeChild(targetParent);
+  // console.log(parent);
 }
 
 // ITERATION 5
